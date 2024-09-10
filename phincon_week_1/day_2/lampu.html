@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Toggling Lampu</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body class="bg-dark">
+    <div class="container text-center p-5">
+      <h1 class="text-light font">Toggling Lampu</h1>
+      <div class="row">
+        <div class="col-xs-6">
+          <img id="lampu" src="assets/lampu-nyala.png" alt="lampu-nyala" />
+        </div>
+        <div class="col-xs-6">
+          <button id="btn-mati" class="btn btn-light">Matikan Lampu</button>
+        </div>
+      </div>
+    </div>
+    <script>
+      const toggleLampu = () => {
+        const lampu = document.getElementById("lampu");
+        const button = document.getElementById("btn-mati");
+        // jika lampu sedang nyala maka matikan lampu
+        if (lampu.src.includes("nyala")) {
+          lampu.src = "assets/lampu-mati.png";
+          button.textContent = "Hidupkan lampu";
+        } else {
+          // jika lampu sedang mati maka hidupkan lampu
+          lampu.src = "assets/lampu-nyala.png";
+          button.textContent = "Matikan lampu";
+        }
+      };
+
+      // menambahkan event listener pada tombol, jika tombol di klik maka akan memanggil fungsi toggleLampu
+      document
+        .getElementById("btn-mati")
+        .addEventListener("click", toggleLampu);
+    </script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
