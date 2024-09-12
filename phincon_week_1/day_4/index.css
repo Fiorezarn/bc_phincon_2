@@ -1,0 +1,111 @@
+/* theme 1 */
+.theme-1 {
+  background-color: hsl(222, 26%, 31%);
+}
+
+.theme-1 h1 {
+  color: white;
+}
+
+.theme-1 p {
+  color: white;
+}
+
+.theme-1 input {
+  background-color: hsl(224, 36%, 15%);
+}
+
+.theme-1 .grid {
+  background-color: hsl(224, 36%, 15%);
+}
+
+.theme-1 .btn-angka {
+  background-color: hsl(30, 25%, 89%);
+  box-shadow: 0px 5px 0px hsl(35, 11%, 61%);
+}
+
+.theme-1 .btn-calculate {
+  background-color: hsl(6, 63%, 50%);
+  box-shadow: 0px 5px 0px hsl(6, 70%, 34%);
+}
+
+.theme-1 .btn-delete {
+  background-color: hsl(225, 21%, 49%);
+  color: white;
+  box-shadow: 0px 5px 0px hsl(224, 28%, 35%);
+}
+
+/* theme 2 */
+.theme-2 h1 {
+  color: black;
+}
+
+.theme-2 {
+  background-color: hsl(0, 0%, 90%);
+}
+
+.theme-2 p {
+  color: black;
+}
+
+.theme-2 .grid {
+  background-color: hsl(0, 5%, 81%);
+}
+
+.theme-2 input {
+  background-color: white;
+  color: black;
+}
+
+.theme-2 .btn-angka {
+  background-color: hsl(30, 25%, 89%);
+  box-shadow: 0px 5px 0px hsl(35, 11%, 61%);
+}
+
+.theme-2 .btn-calculate {
+  background-color: hsl(25, 98%, 40%);
+  box-shadow: 0px 5px 0px hsl(6, 70%, 34%);
+}
+
+.theme-2 .btn-delete {
+  background-color: hsl(25, 98%, 40%);
+  color: white;
+  box-shadow: 0px 5px 0px hsl(25, 99%, 27%);
+}
+
+/* .theme-3 */
+.theme-3 {
+  background-color: hsl(268, 75%, 9%);
+}
+
+.theme-3 h1 {
+  color: hsl(52, 100%, 62%);
+}
+
+.theme-3 p {
+  color: hsl(52, 100%, 62%);
+}
+
+.theme-3 .grid {
+  background-color: hsl(268, 71%, 12%);
+}
+
+.theme-3 input {
+  background-color: hsl(268, 71%, 12%);
+}
+
+.theme-3 .btn-angka {
+  background-color: hsl(268, 47%, 21%);
+  color: hsl(52, 100%, 62%);
+  box-shadow: 0px 5px 0px hsl(290, 70%, 36%);
+}
+
+.theme-3 .btn-calculate {
+  background-color: hsl(176, 100%, 44%);
+}
+
+.theme-3 .btn-delete {
+  background-color: hsl(281, 89%, 26%);
+  box-shadow: 0px 5px 0px hsl(290, 70%, 36%);
+  color: white;
+}
