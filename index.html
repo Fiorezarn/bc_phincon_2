@@ -4,10 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <link
-      rel="stylesheet"
-      href="../phincon_bootcamp/phincon_week_1/day_4/index.css"
-    />
+    <link rel="stylesheet" href="phincon_week_1/day_4/index.css" />
     <title>Calculator</title>
   </head>
   <body class="theme-1">
@@ -150,6 +147,8 @@
       let result = 0;
       let operator = "";
       let isOperator = false;
+
+      document.getElementById("result").value = "0";
 
       function inputNumber(number) {
         if (isOperator) {
