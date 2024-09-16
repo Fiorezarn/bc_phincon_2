@@ -1,17 +1,18 @@
 function hitungBilanganGanjil(n) {
   let bilangan = 0;
-  // looping digunakan untuk mengecek bilangan ganjil
   for (let i = 1; i <= n; i++) {
-    // i berisi 1 sampai n
     if (i % 2 !== 0) {
+      // console.log(i);
+
       bilangan++;
     }
   }
-  console.log(bilangan);
+  // console.log(bilangan);
   return bilangan;
 }
 
-hitungBilanganGanjil(20);
+console.log(hitungBilanganGanjil(10));
+console.log(hitungBilanganGanjil(5));
 
 // Ekspektasi hasil:
 // hitungBilanganGanjil(10) => 5

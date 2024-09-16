@@ -3,6 +3,8 @@ function hitungJumlahHari(tanggal1, tanggal2) {
   let tanggalKedua = new Date(tanggal2);
 
   let bedaWaktu = tanggalKedua.getTime() - tanggalPertama.getTime();
+  console.log(bedaWaktu);
+
   let bedaHari = bedaWaktu / (1000 * 60 * 60 * 24);
   return bedaHari;
 }

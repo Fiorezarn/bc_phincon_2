@@ -1,10 +1,12 @@
 function konversiSuhu(suhu, jenis) {
   if (jenis == "C") {
     let Fahrenheit = (suhu * 9) / 5 + 32;
-    console.log(Fahrenheit, "(Fahrenheit)");
+    // console.log(Fahrenheit, "(Fahrenheit)");
+    return Fahrenheit;
   } else if (jenis === "F") {
     let Celcius = (5 / 9) * (suhu - 32);
-    console.log(Celcius, "(Celcius)");
+    return Celcius;
+    // console.log(Celcius, "(Celcius)");
   }
 }
 

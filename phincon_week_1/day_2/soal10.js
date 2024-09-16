@@ -1,6 +1,5 @@
 function cariBilanganTerbesar(arr) {
   let hasil = Math.max(...arr);
-  console.log(hasil);
+  return hasil;
 }
-
-cariBilanganTerbesar([3, 7, 2, 9, 1]);
+console.log(cariBilanganTerbesar([3, 7, 2, 9, 1]));

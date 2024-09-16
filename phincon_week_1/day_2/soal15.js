@@ -1,14 +1,13 @@
 function hitungKarakterUnik(str) {
-  const hasil = str
-    .split("")
-    //filter untuk menghilangkan huruf yang sama
-    .filter(function (item, i, ar) {
-      return ar.indexOf(item) === i;
-    })
-    .join("").length;
-  console.log(hasil);
+  return str.split("").filter(function (item, i, ar) {
+    // console.log(ar, "<<<<<<");
+    // console.log(item, "<<<<<<");
+
+    return ar.indexOf(item) === i;
+  });
+  // .join("").length;
 }
 
 // Ekspektasi hasil:
-hitungKarakterUnik("hello world");
+console.log(hitungKarakterUnik("hello world"));
 // => 8

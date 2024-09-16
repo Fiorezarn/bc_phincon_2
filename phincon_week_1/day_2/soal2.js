@@ -1,13 +1,18 @@
+//  =  1 memasukan nilai ke variabel
+//  == untuk membandingkan nilai
+//  === membandingkan sama persis
 function cekTahunKabisat(tahun) {
-  if (tahun % 400 === 0) {
-    console.log("Tahun kabisat");
-  } else if (tahun % 100 === 0) {
-    console.log("Bukan tahun kabisat");
-  } else if (tahun % 4 === 0) {
-    console.log("Tahun kabisat");
-  } else {
-    console.log("Bukan tahun kabisat");
+  let isKabisat = false;
+  if (typeof tahun !== "number") {
+    return "Invalid value";
   }
+  if (tahun % 400 === 0 || tahun % 4 === 0) {
+    isKabisat = true;
+  } else if (tahun % 100 === 0) {
+    return isKabisat;
+  }
+  return isKabisat;
 }
 
-cekTahunKabisat(2020);
+console.log(cekTahunKabisat(2020));
+console.log(cekTahunKabisat(2021));

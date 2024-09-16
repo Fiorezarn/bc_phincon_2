@@ -1,8 +1,10 @@
 function cekPalindrom(str) {
   let rev = str.split("").reverse().join("");
   if (rev == str) {
-    console.log("true");
-  } else console.log("false");
+    return true;
+  }
+  return false;
 }
+console.log(cekPalindrom("katak"));
 
-cekPalindrom("katak");
+// cekPalindrom("katak");

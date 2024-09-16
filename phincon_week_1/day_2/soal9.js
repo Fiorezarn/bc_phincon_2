@@ -1,6 +1,5 @@
 function jumlahKata(kata) {
-  const hasil = kata.split(/\s+/);
-  console.log(hasil);
+  return kata.split(" ").length;
 }
 
-jumlahKata("Aku Adalah Reza");
+console.log(jumlahKata("Saya suka belajar JavaScript"));

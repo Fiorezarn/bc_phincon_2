@@ -6,11 +6,14 @@ function hitungKemunculanKata(kalimat, kata) {
     //   jika kata sama dengan kata yang di split
     if (kataSplit[i] === kata) {
       //   tambah count
+      // jika ada kata yang sama maka count + 1
       count++;
     }
   }
-  console.log(count);
+  // console.log(count);
+  return count;
 }
 
-// Ekspektasi hasil:
-hitungKemunculanKata("Saya suka makan nasi, saya juga suka minum air", "suka");
+console.log(
+  hitungKemunculanKata("Saya suka makan nasi, saya juga suka minum air", "suka")
+);
