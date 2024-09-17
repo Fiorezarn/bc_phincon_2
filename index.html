@@ -128,6 +128,13 @@
           x
         </button>
         <button
+          class="btn-calculate text-black font-bold py-2 px-8 rounded text-white text-2xl"
+          onclick="inputOperator('^')"
+          style="grid-column: span 4"
+        >
+          ^
+        </button>
+        <button
           class="btn-delete text-black font-bold py-2 px-8 rounded text-white text-2xl"
           style="grid-column: span 2"
           onclick="reset()"
@@ -152,6 +159,14 @@
       document.getElementById("result").value = "0";
 
       function inputNumber(number) {
+        if (number === 0 && document.getElementById("result").value === "0") {
+          return;
+        } else if (number === 0 && isOperator && number2 !== "0") {
+          number2 += "0";
+          document.getElementById("result").value =
+            number1 + operator + number2;
+          return;
+        }
         if (number === "." && isOperator) {
           if (!number2.includes(".")) {
             if (number2 === "") {
@@ -170,9 +185,17 @@
           }
         } else {
           if (isOperator) {
-            number2 += number;
+            if (number2 === "0") {
+              number2 = number;
+            } else {
+              number2 += number;
+            }
           } else {
-            number1 += number;
+            if (number1 === "0") {
+              number1 = number;
+            } else {
+              number1 += number;
+            }
           }
         }
 
@@ -181,6 +204,13 @@
 
       function inputOperator(operatorValue) {
         if (!isOperator && number1 !== "") {
+          operator = operatorValue;
+          isOperator = true;
+          document.getElementById("result").value = number1 + operator;
+        } else if (isOperator && number2 !== "") {
+          calculate();
+          number1 = document.getElementById("result").value;
+          number2 = "";
           operator = operatorValue;
           isOperator = true;
           document.getElementById("result").value = number1 + operator;
@@ -223,6 +253,8 @@
           case "/":
             result = parseFloat(number1) / parseFloat(number2);
             break;
+          case "^":
+            result = Math.pow(parseFloat(number1), parseFloat(number2));
         }
         document.getElementById("result").value = result;
         number1 = result.toString();
