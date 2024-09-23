@@ -1,0 +1,21 @@
+nav ul {
+  list-style-type: none;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  height: 100px;
+  background-color: white;
+  gap: 20px;
+}
+
+nav ul a {
+  text-decoration: none;
+  color: blue;
+  margin-right: 20px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+nav ul a:hover {
+  color: greenyellow;
+}
