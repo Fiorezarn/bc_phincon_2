@@ -1,12 +1,6 @@
 const round = localStorage.getItem("Round");
 let halaman: HTMLElement | null = document.getElementById("title-count");
 
-if (halaman && round !== null) {
-  halaman.textContent = `Match 1 dari ${round}`;
-} else {
-  console.error("Element not found or round is null.");
-}
-
 // Variabel untuk melacak skor dan jumlah pertandingan
 let totalRounds = parseInt(round ?? "5"); // Default ke 5 ronde jika round tidak ditemukan
 let currentRound = 0;
@@ -15,6 +9,11 @@ let player2TotalPoints = 0;
 
 let player1Choices: string[] = [];
 let player2Choices: string[] = [];
+if (halaman && round !== null) {
+  halaman.textContent = `Match 1 dari ${round}`;
+} else {
+  console.error("Element not found or round is null.");
+}
 
 // Menangani pilihan pemain
 function handleChoice(value: string) {
@@ -33,7 +32,6 @@ function handleChoice(value: string) {
       player1Choices,
       player2Choices
     );
-    console.log(`Round ${currentRound} Result: ${result}`);
 
     // Tambahkan poin berdasarkan hasil pertandingan
     if (result === "Player 1") {
@@ -42,13 +40,13 @@ function handleChoice(value: string) {
       player2TotalPoints++;
     }
 
-    // Reset pilihan setelah setiap ronde
-    player1Choices = [];
-    player2Choices = [];
-
     // Update judul match saat ini
     if (halaman) {
-      halaman.textContent = `Match ${currentRound + 1} dari ${totalRounds}`;
+      if (currentRound < totalRounds) {
+        halaman.textContent = `Match ${currentRound + 1} dari ${totalRounds}`;
+      } else {
+        halaman.textContent = `Match ${currentRound} dari ${totalRounds}`;
+      }
     }
 
     // Jika pertandingan selesai, tentukan pemenang dan simpan di localStorage

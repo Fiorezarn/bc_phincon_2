@@ -1,12 +1,6 @@
 "use strict";
 const round = localStorage.getItem("Round");
 let halaman = document.getElementById("title-count");
-if (halaman && round !== null) {
-    halaman.textContent = `Match 1 dari ${round}`;
-}
-else {
-    console.error("Element not found or round is null.");
-}
 // Variabel untuk melacak skor dan jumlah pertandingan
 let totalRounds = parseInt(round !== null && round !== void 0 ? round : "5"); // Default ke 5 ronde jika round tidak ditemukan
 let currentRound = 0;
@@ -14,6 +8,12 @@ let player1TotalPoints = 0;
 let player2TotalPoints = 0;
 let player1Choices = [];
 let player2Choices = [];
+if (halaman && round !== null) {
+    halaman.textContent = `Match 1 dari ${round}`;
+}
+else {
+    console.error("Element not found or round is null.");
+}
 // Menangani pilihan pemain
 function handleChoice(value) {
     if (value.startsWith("P1")) {
@@ -26,7 +26,6 @@ function handleChoice(value) {
     if (player1Choices.length === player2Choices.length) {
         currentRound++;
         const result = rockPaperScissors("Player 1", "Player 2", player1Choices, player2Choices);
-        console.log(`Round ${currentRound} Result: ${result}`);
         // Tambahkan poin berdasarkan hasil pertandingan
         if (result === "Player 1") {
             player1TotalPoints++;
@@ -34,12 +33,14 @@ function handleChoice(value) {
         else if (result === "Player 2") {
             player2TotalPoints++;
         }
-        // Reset pilihan setelah setiap ronde
-        player1Choices = [];
-        player2Choices = [];
         // Update judul match saat ini
         if (halaman) {
-            halaman.textContent = `Match ${currentRound + 1} dari ${totalRounds}`;
+            if (currentRound < totalRounds) {
+                halaman.textContent = `Match ${currentRound + 1} dari ${totalRounds}`;
+            }
+            else {
+                halaman.textContent = `Match ${currentRound} dari ${totalRounds}`;
+            }
         }
         // Jika pertandingan selesai, tentukan pemenang dan simpan di localStorage
         if (currentRound === totalRounds) {
