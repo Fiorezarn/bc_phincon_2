@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://unpkg.com/react@18/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/phincon_week_1/day_4/index.css" />
+    <title>Calculator React</title>
+  </head>
+  <body class="theme-1">
+    <div class="lg:w-1/2 w-full p-2 mx-auto mt-20" id="container"></div>
+    <script type="text/babel">
+      function OperatorList() {
+        const { useState } = React;
+        const [number1, setNumber1] = useState("");
+        const [number2, setNumber2] = useState("");
+        const [operator, setOperator] = useState("");
+        const [result, setResult] = useState("0");
+        const [isOperatorSelected, setIsOperatorSelected] = useState(false);
+
+        const changeFunc = (e) => {
+          console.log(e.target.value);
+        };
+
+        const reset = () => {
+          setNumber1("");
+          setNumber2("");
+          setOperator("");
+          setIsOperatorSelected(false);
+          setResult("0");
+        };
+
+        const calculate = () => {
+          let calcResult;
+          const num1 = parseFloat(number1);
+          const num2 = parseFloat(number2);
+
+          switch (operator) {
+            case "+":
+              calcResult = num1 + num2;
+              break;
+            case "-":
+              calcResult = num1 - num2;
+              break;
+            case "*":
+              calcResult = num1 * num2;
+              break;
+            case "/":
+              calcResult = num1 / num2;
+              break;
+            case "^":
+              calcResult = Math.pow(num1, num2);
+              break;
+            default:
+              calcResult = "Error";
+          }
+
+          setResult(calcResult.toString());
+          setNumber1(calcResult.toString());
+          setNumber2("");
+          setOperator("");
+          setIsOperatorSelected(false);
+        };
+
+        const inputNumber = (number) => {
+          if (isOperatorSelected) {
+            setNumber2((prev) => prev + number.toString());
+            // setResult(number2 + number.toString());
+            setResult(`${number1}${operator}${number2 + number.toString()}`);
+          } else {
+            setNumber1((prev) => prev + number.toString());
+            setResult(number1 + number.toString());
+          }
+        };
+
+        const inputOperator = (op) => {
+          if (!isOperatorSelected && number1 !== "") {
+            setOperator(op);
+            setIsOperatorSelected(true);
+            setResult(number1 + op + number2);
+          }
+        };
+
+        const deleteCharacter = () => {
+          if (isOperatorSelected) {
+            setNumber2((prev) => prev.slice(0, -1));
+            setResult(`${number1}${operator.slice}${number2.slice(0, -1)}`);
+          } else {
+            setNumber1((prev) => prev.slice(0, -1));
+            setResult(number1.slice(0, -1));
+          }
+        };
+
+        return (
+          <>
+            <div className="flex justify-between">
+              <h1 className="font-bold">Calc</h1>
+              <div className="flex gap-3">
+                <p className="text-white font-bold">Theme</p>
+                <select
+                  onChange={changeFunc}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md font-bold"
+                  id="theme"
+                >
+                  <option value="theme-1">Theme 1</option>
+                  <option value="theme-2">Theme 2</option>
+                  <option value="theme-3">Theme 3</option>
+                </select>
+              </div>
+            </div>
+            <input
+              className="lg:w-full w-full text-white font-bold text-end p-5 text-4xl mt-4 rounded-md h-[100px]"
+              type="text"
+              readOnly
+              id="result"
+              value={result}
+            />
+            <div className="grid grid-cols-4 gap-4 p-5 mt-5 rounded-md">
+              <button
+                className="btn-angka text-black font-bold py-2 px-4 rounded text-[32px]"
+                onClick={() => inputNumber(7)}
+              >
+                7
+              </button>
+              <button
+                className="btn-angka text-black font-bold py-2 px-4 rounded text-[32px]"
+                onClick={() => inputNumber(8)}
+              >
+                8
+              </button>
+              <button
+                className="btn-angka text-black font-bold py-2 px-4 rounded text-[32px]"
+                onClick={() => inputNumber(9)}
+              >
+                9
+              </button>
+              <button
+                className="btn-delete text-black font-bold py-2 px-4 rounded text-white text-2xl"
+                onClick={deleteCharacter}
+              >
+                DEL
+              </button>
+              <button
+                className="btn-angka text-black font-bold py-2 px-4 rounded text-[32px]"
+                onClick={() => inputNumber(4)}
+              >
+                4
+              </button>
+              <button
+                className="btn-angka text-black font-bold py-2 px-4 rounded text-[32px]"
+                onClick={() => inputNumber(5)}
+              >
+                5
+              </button>
+              <button
+                className="btn-angka text-black font-bold py-2 px-4 rounded text-[32px]"
+                onClick={() => inputNumber(6)}
+              >
+                6
+              </button>
+              <button
+                className="btn-angka text-black font-bold py-2 px-4 rounded text-[32px]"
+                onClick={() => inputOperator("+")}
+              >
+                +
+              </button>
+              <button
+                className="btn-angka text-black font-bold py-2 px-4 rounded text-[32px]"
+                onClick={() => inputNumber(1)}
+              >
+                1
+              </button>
+              <button
+                className="btn-angka text-black font-bold py-2 px-4 rounded text-[32px]"
+                onClick={() => inputNumber(2)}
+              >
+                2
+              </button>
+              <button
+                className="btn-angka text-black font-bold py-2 px-4 rounded text-[32px]"
+                onClick={() => inputNumber(3)}
+              >
+                3
+              </button>
+              <button
+                className="btn-angka text-black font-bold py-2 px-4 rounded text-[32px]"
+                onClick={() => inputOperator("-")}
+              >
+                -
+              </button>
+              <button
+                className="btn-angka text-black font-bold py-2 px-4 rounded text-[32px]"
+                onClick={() => inputNumber(".")}
+              >
+                .
+              </button>
+              <button
+                className="btn-angka text-black font-bold py-2 px-4 rounded text-[32px]"
+                onClick={() => inputNumber(0)}
+              >
+                0
+              </button>
+              <button
+                className="btn-angka text-black font-bold py-2 px-4 rounded text-[32px]"
+                onClick={() => inputOperator("/")}
+              >
+                /
+              </button>
+              <button
+                className="btn-angka text-black font-bold py-2 px-4 rounded text-[32px]"
+                onClick={() => inputOperator("*")}
+              >
+                x
+              </button>
+              <button
+                className="btn-calculate text-black font-bold py-2 px-8 rounded text-white text-2xl"
+                style={{ gridColumn: "span 4" }}
+                onClick={() => inputOperator("^")}
+              >
+                ^
+              </button>
+              <button
+                className="btn-delete text-black font-bold py-2 px-8 rounded text-white text-2xl"
+                style={{ gridColumn: "span 2" }}
+                onClick={reset}
+              >
+                RESET
+              </button>
+              <button
+                className="btn-calculate text-black font-bold py-2 px-8 rounded text-white text-2xl"
+                style={{ gridColumn: "span 2" }}
+                onClick={calculate}
+              >
+                =
+              </button>
+            </div>
+          </>
+        );
+      }
+      ReactDOM.createRoot(document.getElementById("container")).render(
+        <OperatorList />
+      );
+    </script>
+  </body>
+</html>
