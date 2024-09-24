@@ -9,13 +9,18 @@ function App() {
 
   useEffect(() => {
     const storedList = localStorage.getItem("listTask");
-    if (storedList) {
+    const themeNow = localStorage.getItem("theme");
+
+    if (storedList || themeNow) {
       setListTask(JSON.parse(storedList));
+      setTheme(themeNow);
     }
   }, []);
 
   const changeTheme = () => {
-    setTheme(theme === "light" ? "dark" : "light");
+    const newTheme = theme === "light" ? "dark" : "light";
+    setTheme(newTheme);
+    localStorage.setItem("theme", newTheme);
   };
 
   const addTask = () => {
@@ -26,10 +31,8 @@ function App() {
   };
 
   const deleteTask = (index) => {
-    const newListTask = listTask.filter((item, i) => {
-      return i !== index;
-    });
-
+    const newListTask = [...listTask];
+    newListTask.splice(index, 1);
     setListTask(newListTask);
     localStorage.setItem("listTask", JSON.stringify(newListTask));
   };
