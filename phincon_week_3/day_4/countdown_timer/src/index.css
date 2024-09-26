@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.App {
+  background-color: rgba(27, 36, 48);
+}
+
+._3cpN7 ._2EBbg:not(:last-child) {
+  margin-right: 0px !important;
+}
+
+svg:hover path {
+  fill: hsl(345, 95%, 68%);
+}
