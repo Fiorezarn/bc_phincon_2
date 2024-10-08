@@ -1,0 +1,27 @@
+[
+  {
+    "id": 1,
+    "name": "Tas",
+    "price": 150000
+  },
+  {
+    "id": 2,
+    "name": "Celana Jeans",
+    "price": 200000
+  },
+  {
+    "id": 3,
+    "name": "Kemeja",
+    "price": 80000
+  },
+  {
+    "id": 4,
+    "name": "Celana Boxer",
+    "price": 30000
+  },
+  {
+    "id": 5,
+    "name": "Dompet",
+    "price": 250000
+  }
+]

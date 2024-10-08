@@ -1,0 +1,17 @@
+[
+  {
+    "brand": "brand A",
+    "model": "model A",
+    "processor": "processor A"
+  },
+  {
+    "brand": "brand B",
+    "model": "model B",
+    "processor": "processor B"
+  },
+  {
+    "brand": "brand C",
+    "model": "model C",
+    "processor": "processor C"
+  }
+]
