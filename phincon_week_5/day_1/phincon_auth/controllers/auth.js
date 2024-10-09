@@ -1,10 +1,11 @@
 const { User } = require("@/models");
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
-const { generateVerificationToken } = require("@/controllers/token");
+const { generateToken } = require("@/controllers/token");
 const fs = require("fs");
 const path = require("path");
 const handlebars = require("handlebars");
+const { Op } = require("sequelize");
 
 const registerUser = async (req, res) => {
   try {
@@ -15,7 +16,7 @@ const registerUser = async (req, res) => {
       us_email: email,
       us_password: await bcrypt.hashSync(password, 10),
       us_phone_number: phoneNumber,
-      us_active: true,
+      us_active: false,
       us_created_on: new Date(),
       us_created_by: 1,
       us_updated_on: new Date(),
@@ -28,9 +29,11 @@ const registerUser = async (req, res) => {
       data: newUser,
     });
 
-    const verificationToken = generateVerificationToken(
+    const verificationToken = generateToken(
       newUser.us_id,
-      newUser.us_email
+      newUser.us_email,
+      "VERIFICATION",
+      "1h"
     );
 
     const emailTemplateSource = fs.readFileSync(
@@ -55,7 +58,7 @@ const registerUser = async (req, res) => {
       from: "phinconacademy@gmail.com",
       to: email,
       subject: "Hello ✔",
-      html: "<b>INI MASIH TEST VERIFIKASI</b>",
+      html: htmlToSend,
     };
     await transporter.sendMail(mailOptions);
     return res.send({
@@ -69,4 +72,71 @@ const registerUser = async (req, res) => {
   }
 };
 
-module.exports = { registerUser };
+const loginUser = async (req, res) => {
+  try {
+    const { input, password } = req.body;
+    const user = await User.findOne({
+      attributes: [
+        "us_id",
+        "us_password",
+        "us_username",
+        "us_email",
+        "us_phone_number",
+        "us_fullname",
+        "us_active",
+      ],
+      where: {
+        [Op.or]: [
+          { us_username: input },
+          { us_email: input },
+          { us_phone_number: input },
+        ],
+      },
+    });
+    const loginToken = generateToken(user.us_id, user.us_email, "LOGIN", "1d");
+
+    const isActive = user.us_active;
+
+    if (!isActive) {
+      return res.status(401).send({
+        status: "failed",
+        code: 401,
+        message: "Please verify your email first",
+      });
+    }
+
+    if (!user) {
+      return res.status(404).send({
+        status: "failed",
+        code: 404,
+        message: "User not found",
+      });
+    }
+    const isValidPassword = await bcrypt.compare(password, user.us_password);
+    if (!isValidPassword) {
+      return res.status(401).send({
+        status: "failed",
+        code: 401,
+        message: "Invalid credentials",
+      });
+    }
+    delete user.dataValues.us_password;
+    user.dataValues.token = loginToken;
+    const options = {
+      expires: new Date(Number(new Date()) + 24 * 60 * 60 * 1000),
+      httpOnly: true,
+    };
+    return res.cookie("user", user, options).status(200).send({
+      status: "success",
+      code: 200,
+      data: user,
+    });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .send({ status: "failed", code: 500, message: error.message });
+  }
+};
+
+module.exports = { registerUser, loginUser };

@@ -7,12 +7,12 @@ const columns = {
   active: "us_active",
 };
 
-const generateVerificationToken = (id, email) => {
+const generateToken = (id, email, name, expiresIn) => {
   const token = jwt.sign(
-    { [columns.id]: id, [columns.email]: email },
+    { [columns.id]: id, [columns.email]: email, name: name },
     process.env.JWT_SECRET,
     {
-      expiresIn: process.env.JWT_EXPIRES_IN,
+      expiresIn: expiresIn,
     }
   );
   return token;
@@ -33,4 +33,4 @@ const verifyEmail = async (req, res) => {
   }
 };
 
-module.exports = { generateVerificationToken, verifyEmail };
+module.exports = { generateToken, verifyEmail };
