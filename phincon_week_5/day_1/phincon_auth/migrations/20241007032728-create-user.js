@@ -28,6 +28,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      us_password: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       us_active: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
@@ -38,15 +42,15 @@ module.exports = {
       },
       us_created_by: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
       },
       us_updated_on: {
         type: Sequelize.DATE,
-        allowNull: false,
+        allowNull: true,
       },
       us_updated_by: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
       },
     });
   },

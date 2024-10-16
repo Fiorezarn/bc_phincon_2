@@ -1,5 +1,6 @@
 "use strict";
 const { Model } = require("sequelize");
+const { FOREIGNKEYS } = require("sequelize/lib/query-types");
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -9,6 +10,15 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      models.User.hasOne(models.Profile, {
+        foreignKey: "pr_us_id",
+        as: "profile",
+      });
+      models.User.belongsToMany(models.Role, {
+        through: models.UserRole,
+        foreignKey: "ur_us_id",
+        as: "roles",
+      });
     }
   }
   User.init(
@@ -48,21 +58,21 @@ module.exports = (sequelize, DataTypes) => {
       },
       us_created_on: {
         type: DataTypes.DATE,
-        allowNull: false,
+        allowNull: true,
         defaultValue: DataTypes.NOW,
       },
       us_created_by: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
       },
       us_updated_on: {
         type: DataTypes.DATE,
-        allowNull: false,
+        allowNull: true,
         defaultValue: DataTypes.NOW,
       },
       us_updated_by: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
       },
     },
     {

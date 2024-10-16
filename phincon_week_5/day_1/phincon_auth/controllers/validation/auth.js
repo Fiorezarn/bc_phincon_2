@@ -1,7 +1,7 @@
 const Joi = require("joi");
 const { User } = require("@/models");
 
-const bodyvalidation = (req, res, next) => {
+const bodyValidation = (req, res, next) => {
   const schema = Joi.object({
     fullname: Joi.string().required(),
     username: Joi.string().required(),
@@ -46,4 +46,4 @@ const checkDuplicates = async (req, res, next) => {
   }
 };
 
-module.exports = { bodyvalidation, checkDuplicates };
+module.exports = { bodyValidation, checkDuplicates };

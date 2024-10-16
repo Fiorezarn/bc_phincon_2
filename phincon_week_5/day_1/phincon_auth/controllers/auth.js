@@ -1,4 +1,4 @@
-const { User } = require("@/models");
+const { User, Token } = require("@/models");
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
 const { generateToken } = require("@/controllers/token");
@@ -6,36 +6,27 @@ const fs = require("fs");
 const path = require("path");
 const handlebars = require("handlebars");
 const { Op } = require("sequelize");
+const { getClientIP } = require("@/controllers/helper");
+const { Navigator } = require("node-navigator");
 
 const registerUser = async (req, res) => {
   try {
+    const name = "VERIFICATION";
     const { fullname, username, email, password, phoneNumber } = req.body;
     const newUser = await User.create({
       us_fullname: fullname,
       us_username: username,
       us_email: email,
-      us_password: await bcrypt.hashSync(password, 10),
+      us_password: await bcrypt.hash(password, 10),
       us_phone_number: phoneNumber,
       us_active: false,
-      us_created_on: new Date(),
-      us_created_by: 1,
-      us_updated_on: new Date(),
-      us_updated_by: 1,
     });
-    res.status(201).send({
-      status: "success",
-      code: 201,
-      message: "Register Success",
-      data: newUser,
-    });
-
     const verificationToken = generateToken(
       newUser.us_id,
       newUser.us_email,
       "VERIFICATION",
       "1h"
     );
-
     const emailTemplateSource = fs.readFileSync(
       path.join(__dirname, "../views/templates/emailVerification.hbs"),
       "utf8"
@@ -46,6 +37,7 @@ const registerUser = async (req, res) => {
       username: username,
       verificationLink: `${process.env.BASE_URL}:${process.env.PORT}/auth/verify-email?token=${verificationToken}`,
     });
+
     const transporter = nodemailer.createTransport({
       service: process.env.MAIL_SERVICE,
       auth: {
@@ -60,30 +52,42 @@ const registerUser = async (req, res) => {
       subject: "Hello ✔",
       html: htmlToSend,
     };
+
     await transporter.sendMail(mailOptions);
-    return res.send({
-      status: "success",
-      message: "Email sent",
+    await Token.create({
+      tkn_value: verificationToken,
+      tkn_type: "Register",
+      tkn_description: `Successfully create token user VERIFICATION for ${newUser.us_id}`,
+      tkn_client_ip: (await getClientIP()).ip,
+      tkn_client_agent: new Navigator().userAgent,
+      tkn_us_id: newUser.us_id,
+      tkn_expired_on: new Date(Number(new Date()) + 60 * 60 * 1000),
+      tkn_active: true,
+    });
+
+    return res.status(201).send({
+      status: "succes",
+      code: 200,
+      message: "Succes add new user",
       data: newUser,
     });
   } catch (error) {
-    console.log(error);
-    res.status(500).send({ status: "failed", message: error.message });
+    res
+      .status(500)
+      .send({ status: "failed", code: 500, message: error.message });
   }
 };
-
 const loginUser = async (req, res) => {
   try {
     const { input, password } = req.body;
     const user = await User.findOne({
       attributes: [
-        "us_id",
         "us_password",
+        "us_id",
         "us_username",
+        "us_fullname",
         "us_email",
         "us_phone_number",
-        "us_fullname",
-        "us_active",
       ],
       where: {
         [Op.or]: [
@@ -94,49 +98,37 @@ const loginUser = async (req, res) => {
       },
     });
     const loginToken = generateToken(user.us_id, user.us_email, "LOGIN", "1d");
-
-    const isActive = user.us_active;
-
-    if (!isActive) {
-      return res.status(401).send({
-        status: "failed",
-        code: 401,
-        message: "Please verify your email first",
-      });
-    }
-
     if (!user) {
-      return res.status(404).send({
+      return res.status(400).send({
         status: "failed",
-        code: 404,
+        code: 400,
         message: "User not found",
       });
     }
     const isValidPassword = await bcrypt.compare(password, user.us_password);
     if (!isValidPassword) {
-      return res.status(401).send({
+      return res.status(400).send({
         status: "failed",
-        code: 401,
-        message: "Invalid credentials",
+        code: 400,
+        message: "Invalid Password password",
       });
     }
     delete user.dataValues.us_password;
     user.dataValues.token = loginToken;
+    // Set Cookie
     const options = {
       expires: new Date(Number(new Date()) + 24 * 60 * 60 * 1000),
       httpOnly: true,
     };
     return res.cookie("user", user, options).status(200).send({
-      status: "success",
+      status: "succes",
       code: 200,
       data: user,
     });
   } catch (error) {
-    console.log(error);
-    return res
+    res
       .status(500)
       .send({ status: "failed", code: 500, message: error.message });
   }
 };
-
 module.exports = { registerUser, loginUser };
