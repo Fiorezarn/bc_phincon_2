@@ -118,9 +118,9 @@ const loginUser = async (req, res) => {
     // Set Cookie
     const options = {
       expires: new Date(Number(new Date()) + 24 * 60 * 60 * 1000),
-      httpOnly: true,
+      httpOnly: false,
     };
-    return res.cookie("user", user, options).status(200).send({
+    return res.cookie("user", JSON.stringify(user), options).status(200).send({
       status: "succes",
       code: 200,
       data: user,

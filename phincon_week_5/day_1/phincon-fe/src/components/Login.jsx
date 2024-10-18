@@ -1,14 +1,32 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import logoPhinconAcademy from "../assets/logo-phincon-academy.png";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ReactLoading from "react-loading";
+import { useDispatch, useSelector } from "react-redux"; // Import redux hooks
+import { loginRequest } from "../features/login/loginSlice";
+import Cookies from "js-cookie";
 
 const Login = () => {
   const [input, setInput] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  const dispatch = useDispatch();
+  const { userData, loading, error } = useSelector((state) => state.login);
+
+  useEffect(() => {
+    dispatch(loginRequest());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (userData) {
+      console.log(userData, "User data dari cookies >>>>>>>");
+    } else if (error) {
+      console.log(error, "Error >>>>>>>");
+    }
+  }, [userData, error]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

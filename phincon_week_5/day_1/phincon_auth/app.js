@@ -9,7 +9,12 @@ const port = process.env.PORT || 3000;
 
 const authRoutes = require("@/routes/auth");
 
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+    origin: true,
+  })
+);
 app.use(bodyParser.json());
 app.use(express.static("public"));
 app.use(cookieParser());
